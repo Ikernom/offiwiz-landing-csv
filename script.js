@@ -99,17 +99,82 @@ uploadForm.addEventListener('submit', async (e) => {
             throw new Error(`Error del servidor: ${response.status}`);
         }
 
-        const informe = await response.text();
+        const data = await response.json();
 
-        // Show the result
-        resultContent.innerHTML = marked.parse(informe);
-        resultado.classList.remove('hidden');
+        // 1. Validar errores de la API
+        if (data.error) {
+            resultContent.innerHTML = `
+                <div class="error-box">
+                    <span>${data.error}</span>
+                </div>
+            `;
+            resultado.classList.remove('hidden');
+            return; // Detener ejecución
+        }
+
+        // 2. Procesar Reporte
+        if (data.report) {
+            const { resumen_ejecutivo, metricas_clave, recomendaciones, anomalias } = data.report;
+            
+            let html = '';
+
+            if (resumen_ejecutivo) {
+                html += `
+                    <div class="report-section">
+                        <h2>Resumen Ejecutivo</h2>
+                        <p>${resumen_ejecutivo}</p>
+                    </div>
+                `;
+            }
+
+            if (metricas_clave && Array.isArray(metricas_clave)) {
+                html += `
+                    <div class="report-section">
+                        <h2>Métricas Clave</h2>
+                        <ul class="report-list">
+                            ${metricas_clave.map(m => `<li>${m}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+
+            if (recomendaciones && Array.isArray(recomendaciones)) {
+                html += `
+                    <div class="report-section">
+                        <h2>Recomendaciones</h2>
+                        <ul class="report-list">
+                            ${recomendaciones.map(r => `<li>${r}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+
+            if (anomalias && Array.isArray(anomalias)) {
+                html += `
+                    <div class="report-section">
+                        <h2>Anomalías Detectadas</h2>
+                        ${anomalias.map(a => {
+                            const sev = (a.severidad || '').toLowerCase();
+                            const severidadClass = sev === 'alta' ? 'rojo' : (sev === 'media' ? 'naranja' : 'amarillo');
+                            return `<div class="anomalia ${severidadClass}">${a.descripcion}</div>`;
+                        }).join('')}
+                    </div>
+                `;
+            }
+
+            resultContent.innerHTML = html;
+            resultado.classList.remove('hidden');
+        }
 
         // Scroll to the result
         resultado.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
     } catch (error) {
-        resultContent.textContent = `⚠️ Ha ocurrido un error: ${error.message}\n\nAsegúrate de que la URL del webhook esté configurada correctamente.`;
+        resultContent.innerHTML = `
+            <div class="error-box">
+                <span>Ha ocurrido un error: ${error.message}. Asegúrate de que el servidor esté respondiendo correctamente.</span>
+            </div>
+        `;
         resultado.classList.remove('hidden');
     } finally {
         // Restore button state
