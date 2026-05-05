@@ -32,6 +32,10 @@
    const TU_WEBHOOK_URL = 'TU_URL_AQUI';
    ```
 
+   **Ejemplo de Workflow (Make.com):**
+   ![Workflow Make.com](workflow.png)
+
+
 3. **¡Listo para usar!**
    Abre `index.html` en cualquier navegador moderno.
 
