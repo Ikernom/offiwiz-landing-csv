@@ -2,7 +2,7 @@
 
 **Offiwiz** es una landing page moderna y minimalista diseñada para promocionar una herramienta de IA que convierte archivos CSV en informes ejecutivos estratégicos de forma instantánea.
 
-![Preview](preview.png)
+
 
 ## ✨ Características
 
