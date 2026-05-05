@@ -102,7 +102,7 @@ uploadForm.addEventListener('submit', async (e) => {
         const informe = await response.text();
 
         // Show the result
-        resultContent.textContent = informe;
+        resultContent.innerHTML = marked.parse(informe);
         resultado.classList.remove('hidden');
 
         // Scroll to the result
