@@ -1,53 +1,21 @@
-# 🚀 Offiwiz — De Datos Crudos a Decisiones Ejecutivas
+# 🚀 Offiwiz AI Report Generator
 
-**Offiwiz** es una landing page moderna y minimalista diseñada para promocionar una herramienta de IA que convierte archivos CSV en informes ejecutivos estratégicos de forma instantánea.
+Prototipo de herramienta interna para generar informes ejecutivos a partir de archivos de registro (Logs/CSV) utilizando Inteligencia Artificial.
 
+## 🛠️ Arquitectura y Tecnologías
+Este proyecto utiliza una arquitectura *Serverless* para mantener un coste operativo de 0€ durante la fase de validación:
+* **Frontend:** HTML5, CSS3, JavaScript puro + Tailwind/Librerías externas.
+* **Hosting Frontend:** Vercel / GitHub Pages.
+* **Backend & Automatización:** Make.com (Webhooks).
+* **Inteligencia Artificial:** Google Gemini 1.5 API (Procesamiento de datos y NLP).
 
+## ⚙️ El Flujo de Trabajo (Backend)
+Toda la lógica de procesamiento de datos ocurre en la nube sin sobrecargar el navegador del usuario. 
 
-## ✨ Características
+![Flujo de Make](workflow.png)
 
-- **Análisis con IA**: Interfaz intuitiva para subir archivos CSV y recibir un análisis profundo en segundos.
-- **Diseño Premium**: Estética tecnológica limpia con gradientes, efectos de glassmorphism y animaciones fluidas.
-- **Totalmente Responsive**: Optimizado para dispositivos móviles, tablets y ordenadores de sobremesa.
-- **Experiencia de Usuario (UX)**: Soporte para Drag & Drop, indicadores de carga y feedback visual inmediato.
-- **Optimizado para Conversión**: Secciones de "Cómo Funciona" y "Beneficios" diseñadas para guiar al usuario.
+1. **Recepción (Webhook):** Captura el archivo binario enviado por el usuario.
+2. **Procesamiento AI:** El motor de Gemini convierte el binario a texto, analiza los datos mecánicos/operativos y redacta un informe estructurado.
+3. **Respuesta (Webhook Response):** Devuelve el informe en formato Markdown al frontend en cuestión de segundos.
 
-## 🛠️ Tecnologías Utilizadas
-
-- **HTML5**: Estructura semántica y SEO-friendly.
-- **CSS3 (Vanilla)**: Sistema de diseño personalizado con variables CSS y animaciones `@keyframes`.
-- **JavaScript (ES6+)**: Lógica de interceptación de formularios, gestión de `FormData` y peticiones asíncronas vía `fetch`.
-- **Google Fonts**: Tipografía 'Inter' para una legibilidad máxima.
-
-## 🚀 Instalación y Uso
-
-1. **Clona el repositorio:**
-   ```bash
-   git clone https://github.com/Ikernom/offiwiz-landing-csv.git
-   ```
-
-2. **Configura tu Webhook:**
-   Abre `script.js` y localiza la constante `TU_WEBHOOK_URL` para añadir tu endpoint de procesamiento (ej. Make, Zapier o un backend propio):
-   ```javascript
-   const TU_WEBHOOK_URL = 'TU_URL_AQUI';
-   ```
-
-   **Ejemplo de Workflow (Make.com):**
-   ![Workflow Make.com](workflow.png)
-
-
-3. **¡Listo para usar!**
-   Abre `index.html` en cualquier navegador moderno.
-
-## 📈 Estructura del Proyecto
-
-```text
-├── index.html    # Estructura principal de la landing page
-├── style.css     # Estilos, diseño y animaciones
-├── script.js    # Lógica de carga de archivos y comunicación con IA
-└── README.md     # Documentación del proyecto
-```
-
----
-
-Desarrollado con ❤️ para **Offiwiz** — 2026.
+*(Nota: En los archivos del repositorio se incluye el archivo `workflow-make.json` por si se desea importar e inspeccionar el escenario en Make).*
